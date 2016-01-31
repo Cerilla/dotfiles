@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ -f *.tta ]; then
+   if [ -f *.cue ]; then
+      ffmpeg -i *.tta -ab 800K output.flac
+      cuebreakpoints *.cue | shnsplit -o flac output.flac
+      cuetag.sh *.cue split-*.flac
+      rm output.flac
+
+     for f in *.flac; do
+         lltag -q --no-tagging --yes --rename "%n -%t" $f
+     done
+
+     space2under
+
+     for f in *.flac; do
+         ffmpeg -i $f -ab 320K ${f%.flac}.mp3
+         rm $f
+      done
+   else
+      echo "ERROR : cue sheet is not exist"
+   fi
+else
+   echo "ERROR : tta file is not exist"
+fi

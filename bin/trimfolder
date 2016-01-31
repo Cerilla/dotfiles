@@ -1,0 +1,53 @@
+#!/bin/bash
+
+maxchar=60
+
+if [ `pwd|wc -m` -lt $maxchar ]; then
+   dirname=`echo "$PWD"`
+#  echo -n "Folder Length : "
+#  echo $PWD|wc -m
+#  echo "$dirname"
+ else
+   i=0
+   x=0
+   oldIFS=$IFS
+   newPWD=`echo $PWD`
+
+   until [ `echo "$newPWD"|wc -m` -lt $maxchar ]; do
+#   x=$[$x+1]
+#   echo "---------------------------------------"
+#   echo "ITERATION #$x"
+#   echo -n "Folder Length : "
+#   echo $newPWD|wc -m
+#   echo "---------------------------------------"
+#   echo "FOLDER BREAKING PROCEDURE"
+#   echo "---------------------------------------"
+      # FOLDER BREAKING
+      IFS=/
+      i=0
+      for value in $newPWD; do
+         m[$i]=`echo "$value"`
+#        echo "$i | ${m[$i]}"
+         i=$[i+1]
+      done
+      IFS=$oldIFS
+      # REWRITE PWD
+#   echo "---------------------------------------"
+#   echo "FOLDER REWRITE PROCEDURE"
+#   echo "---------------------------------------"
+     unset newPWD
+      for n in `seq 2 1 $[$i-1]`; do
+         newPWD="$newPWD/${m[$n]}"
+#        echo "$n | $newPWD"
+      done
+   done
+   dirname=`echo "..${newPWD}"`
+#  echo "---------------------------------------"
+#  echo "PROCESS FINISHED IN $x ITERATION"
+#  echo -n "FINAL FOLDER LENGTH : "
+#  echo ${dirname}|wc -m
+#  echo "FINAL RESULT : "
+#  echo "$dirname"
+#  echo "---------------------------------------"
+   unset newPWD
+fi

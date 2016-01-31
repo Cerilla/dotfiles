@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo -n "username: "
+read -e username
+echo -n "password: "
+read -s password
+echo -n ""
+echo -n "proxy: "
+read -e proxy
+echo -n "port: "
+read -e port
+export http_proxy=http://$username:$password@$proxy:$port/
+export https_proxy=http://$username:$password@$proxy:$port/
+export ftp_proxy=http://$username:$password@$proxy:$port/
+export no_proxy='localhost,127.0.0.1,localaddress,.localdomain.com'
+echo -e "Proxy environment variable set."
+

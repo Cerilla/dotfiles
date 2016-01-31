@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mpc clear
+count=`mpc list album | wc -l`
+#echo ${count}
+
+num=`shuf -i 0-${count} -n 1`
+name=`mpc list album | sed -n ${num}p`
+mpc find album "$name" | mpc add 
+mpc play 
